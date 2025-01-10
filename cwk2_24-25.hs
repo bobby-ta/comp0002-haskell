@@ -14,23 +14,24 @@ horse2 = ["ABC", "DEF", "GHI"]
 transpose :: Horse -> Horse
 transpose [] = []
 transpose ([]:_) = []
-transpose xs = reverse (map head xs) : transpose (map tail xs)
+--transpose xs = reverse (map head xs) : transpose (map tail xs)
+transpose xs = map reverse $ foldr (zipWith (:)) (repeat []) xs
 
 mirror:: Horse -> Horse
-mirror xs = map reverse xs
+mirror = map reverse
 
 rotate180 :: Horse -> Horse
-rotate180 xs = transpose (transpose xs)
+rotate180 = transpose . transpose
 
 rotate270 :: Horse -> Horse
-rotate270 xs = reverse (mirror (transpose xs))
+rotate270 = reverse . mirror . transpose
 
 --Section 3
 tribonacci :: Int -> [Int]
-tribonacci n = take n (map head (iterate (\[a, b, c] -> [b, c, a + b + c]) [0, 0, 1]))
+tribonacci n = take n $ map head $ iterate (\[a, b, c] -> [b, c, a + b + c]) [0, 0, 1]
 
-lazycaterer :: Int -> [Int]
-lazycaterer n = take n (map head (iterate (\[a, b] -> [b, b + (b - a + 1)]) [1, 2]))
+lazyCaterer :: Int -> [Int]
+lazyCaterer n = take n $ map head $ iterate (\[a, b] -> [b, b + (b - a + 1)]) [1, 2]
 
 --Section 4
 pretty :: Horse -> IO ()
