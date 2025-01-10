@@ -21,5 +21,4 @@ myLength xs = foldr (+) 0 (map (\x -> 1) xs)
 
 myMap f xs = foldr (\x acc -> (f x) : acc) [] xs
 
-myLength' xs = foldr (\x acc -> acc + 1) 0 xs
-
+myLength' xs = foldr (\x acc -> acc + 1) 0 xs    
