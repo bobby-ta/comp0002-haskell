@@ -27,11 +27,6 @@ rotate270 xs = reverse (mirror (transpose xs))
 
 --Section 3
 tribonacci :: Int -> [Int]
---tribonacci n = map tribonacci' [0..n] where
-    --tribonacci' 0 = 0
-    --tribonacci' 1 = 0
-    --tribonacci' 2 = 1
-    --tribonacci' n = tribonacci' (n - 1) + tribonacci' (n - 2) + tribonacci' (n - 3)
 tribonacci n = take n (map head (iterate (\[a, b, c] -> [b, c, a + b + c]) [0, 0, 1]))
 
 lazycaterer :: Int -> [Int]
@@ -39,9 +34,20 @@ lazycaterer n = take n (map head (iterate (\[a, b] -> [b, b + (b - a + 1)]) [1, 
 
 --Section 4
 pretty :: Horse -> IO ()
-pretty horse = putStr (unlines horse)
+pretty horse
+    | all (\x -> null x) horse = return ()
+    | otherwise = putStr (unlines horse)
 
---horseSeq :: (Int -> [Int]) -> Int -> Horse -> IO ()
-consecutiveHorses :: Int -> Horse -> Horse
-consecutiveHorses n h = map (\line -> concat (replicate n line))  h
-horseSeq f n h = mapM_ (\x -> pretty (consecutiveHorses x h)) (f n)
+horseSeq :: (Int -> [Int]) -> Int -> Horse -> IO ()
+horseSeq f n h = mapM_ (\x -> pretty (consecutiveHorses x h)) (f n) where
+    consecutiveHorses :: Int -> Horse -> Horse
+    consecutiveHorses n h = map (\line -> concat (replicate n line))  h
+
+--Section 5
+shead :: [a] -> Maybe a
+shead [] = Nothing
+shead (x:_) = Just x
+
+stail :: [a] -> Maybe [a]
+stail [] = Nothing
+stail (_:xs) = Just xs
